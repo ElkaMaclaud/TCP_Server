@@ -32,8 +32,36 @@ function isValidBrackets($input) {
     return empty($stack);
 }
 
-// Запрос номера порта
-$port = (int)readline("Введите номер TCP-порта: ");
+
+$options = "p:"; // Опция -p требует аргумент (порт)
+$longopts = ["port:"]; // Длинная опция --port также требует аргумент
+
+// Получаем аргументы
+$args = getopt($options, $longopts);
+
+// Проверяем, был ли передан порт через флаг
+if (isset($args['p'])) {
+    $port = $args['p'];
+    echo "Порт (короткая опция): " . $port . "\n";
+} elseif (isset($args['port'])) {
+    $port = $args['port'];
+    echo "Порт (длинная опция): " . $port . "\n";
+} elseif (isset($argv[1]) && !preg_match('/^-/', $argv[1])) {
+    // Проверяем, передан ли порт без флага
+    $port = $argv[1];
+    echo "Порт (без флага): " . $port . "\n";
+} else {
+    $port = (int)readline("Введите номер TCP-порта: "); 
+}
+
+
+// if($argc > 1) {
+//     $port = $argc[1];
+// } else {
+//     // Запрос номера порта
+//     $port = (int)readline("Введите номер TCP-порта: "); 
+// }
+
 
 // Создание сокета
 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
