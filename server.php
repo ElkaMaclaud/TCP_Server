@@ -60,39 +60,64 @@ while (true) {
         echo "Ошибка при принятии соединения: " . socket_strerror(socket_last_error($socket)) . "\n";
         continue;
     }
-
     // Обработка соединения в отдельном потоке
-    $pid = pcntl_fork(); // В Windows не работает этот подход - это для Unix-подоб. системы
-    if ($pid == -1) {
-        die("Не удалось создать процесс.\n");
-    } elseif ($pid) {
-        // Родительский процесс
-        socket_close($clientSocket);
-    } else {
-        // Дочерний процесс
-        socket_close($socket); // Закрываем сокет в дочернем процессе
+    // Код для Windows
+    // Обработка соединения
 
-        while (true) {
-            $input = socket_read($clientSocket, 1024);
-            if ($input === false || trim($input) === '') {
-                break; // Завершение, если соединение закрыто или пустой ввод
-            }
-
-            // Валидация скобок
-            try {
-                $isValid = isValidBrackets(trim($input));
-
-                $response = $isValid ? "Строка корректна: true\n" : "Строка некорректна: false\n";
-            } catch (InvalidArgumentException $e) {
-                $response = "Ошибка: " . $e->getMessage() . "\n";
-            }
-
-            socket_write($clientSocket, $response, strlen($response));
+    while (true) {
+        $input = socket_read($clientSocket, 1024);
+        if ($input === false || trim($input) === '') {
+            break; // Завершение, если соединение закрыто или пустой ввод
         }
 
-        socket_close($clientSocket);
-        exit(0); // Завершение дочернего процесса
+        // Валидация скобок
+        try {
+            $isValid = isValidBrackets(trim($input));
+
+            $response = $isValid ? "Строка корректна: true\n" : "Строка некорректна: false\n";
+        } catch (InvalidArgumentException $e) {
+            $response = "Ошибка: " . $e->getMessage() . "\n";
+        }
+
+        socket_write($clientSocket, $response, strlen($response));
     }
+
+    // Закрываем клиентский сокет после завершения обработки
+    socket_close($clientSocket);
+
+
+    // Код для Unix-подоб. системы
+    // $pid = pcntl_fork(); // В Windows не работает этот подход - это для Unix-подоб. системы
+    // if ($pid == -1) {
+    //     die("Не удалось создать процесс.\n");
+    // } elseif ($pid) {
+    //     // Родительский процесс
+    //     socket_close($clientSocket);
+    // } else {
+    //     // Дочерний процесс
+    //     socket_close($socket); // Закрываем сокет в дочернем процессе
+
+    //     while (true) {
+    //         $input = socket_read($clientSocket, 1024);
+    //         if ($input === false || trim($input) === '') {
+    //             break; // Завершение, если соединение закрыто или пустой ввод
+    //         }
+
+    //         // Валидация скобок
+    //         try {
+    //             $isValid = isValidBrackets(trim($input));
+
+    //             $response = $isValid ? "Строка корректна: true\n" : "Строка некорректна: false\n";
+    //         } catch (InvalidArgumentException $e) {
+    //             $response = "Ошибка: " . $e->getMessage() . "\n";
+    //         }
+
+    //         socket_write($clientSocket, $response, strlen($response));
+    //     }
+
+    //     socket_close($clientSocket);
+    //     exit(0); // Завершение дочернего процесса
+    // }
 }
 
 // Закрытие основного сокета (не достигнет этого кода, так как бесконечный цикл)
