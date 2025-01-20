@@ -38,6 +38,8 @@ function restartServer($configFilePath) {
     $newConfig = loadConfig($configFilePath);
     $newPort = $newConfig['server']['port'];
 
+    putenv("APP_PORT=$newPort");
+
     if ($newPort !== $currentPort) {
         echo "Порт изменился: $currentPort -> $newPort. Перезапуск сервера...\n";
 
@@ -71,7 +73,6 @@ $configFilePath = $argv[1] ?? null;
 if (!$configFilePath) {
     die("Укажите путь до конфигурационного файла YAML.\n");
 }
-
 
 restartServer($configFilePath);
 
