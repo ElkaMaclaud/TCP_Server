@@ -120,19 +120,11 @@ while (true) {
     // pcntl_signal_dispatch(); // В Windows не работает этот подход - это для Unix-подобных систем
     clearstatcache(); // Очищаем кэш статуса файловой системы
     $currentModifiedTime = filemtime($configFilePath); // Получаем текущее время изменения файла
-    echo "Текущая метка времени: " . date('Y-m-d H:i:s', $currentModifiedTime) . "\n";
-    echo "Последняя метка времени: " . date('Y-m-d H:i:s', $lastModifiedTime) . "\n";
 
-    $newConfig = loadConfig($configFilePath);
-    print_r($newConfig["server"]["port"]);
-
-    $newPort = $newConfig['server']['port'];
-
-    if ($newPort !== $currentPort) {
-        // if ($currentModifiedTime !== $lastModifiedTime) {
-        // Если файл изменился, выполняем нужные действия
+    // if ($newPort !== $currentPort) {
+    if ($currentModifiedTime !== $lastModifiedTime) {
         echo "Конфигурация изменена. Перезагрузка сервера...\n";
-        // $lastModifiedTime = $currentModifiedTime;
+        $lastModifiedTime = $currentModifiedTime;
         restartServer($configFilePath);
     }
 
