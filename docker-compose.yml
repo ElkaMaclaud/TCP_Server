@@ -1,11 +1,19 @@
 version: '3.8'
 
 services:
-  php-server:
-    build: .
-    ports:
-      - "${APP_PORT}:8080"
+  php-fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/app
-    stdin_open: true
-    tty: true
+      - ./src:/var/www/html
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./src:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - php-fpm

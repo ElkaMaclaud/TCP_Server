@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  php-server:
+    build: .
+    ports:
+      - "${APP_PORT}:8080"
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
