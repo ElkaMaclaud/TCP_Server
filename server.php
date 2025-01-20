@@ -33,8 +33,7 @@ function logToFile($message) {
 }
 
 // Проверяем, если это HTTP-запрос
-if (php_sapi_name() === 'cli-server') {
-    // Обработка входящего HTTP-запроса
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $inputString = $_POST['string'] ?? '';
         logToFile("Получен запрос с данными: $inputString");
@@ -55,9 +54,6 @@ if (php_sapi_name() === 'cli-server') {
         http_response_code(405);
         echo "Метод не разрешен.";
     }
-} else {
-    echo "Этот скрипт должен быть запущен через встроенный сервер PHP.";
-}
 
-// Запуск сервера в консоле (также в Windows): php -S localhost:8080 server.php    -S - Этот параметр указывает, что вы хотите запустить встроенный веб-сервер. 
+// Запуск сервера в консоле (также в Windows): php -S localhost:8080 server.php    -S - Этот параметр указывает, что запускать встроенный веб-сервер!!!!! 
 // Использование в Windows:     curl -X POST -d "string=(()())" http://localhost:$port
