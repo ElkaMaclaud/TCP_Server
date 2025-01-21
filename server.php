@@ -33,25 +33,27 @@ function logToFile($message) {
 }
 
 // Проверяем, если это HTTP-запрос
-
+if (isset($_SERVER['REQUEST_METHOD'])) {
+    $requestMethod = $_SERVER['REQUEST_METHOD'];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $inputString = $_POST['string'] ?? '';
-        logToFile("Получен запрос с данными: $inputString");
+        logToFile(message: "Получен запрос с данными: $inputString");
         try {
-            $isValid = isValidBrackets(trim($inputString));
+            $isValid = isValidBrackets(trim(string: $inputString));
             if ($isValid) {
-                http_response_code(200);
+                http_response_code(response_code: 200);
                 echo "Строка корректна: true";
             } else {
-                http_response_code(400);
+                http_response_code(response_code: 400);
                 echo "Строка некорректна: false";
             }
         } catch (InvalidArgumentException $e) {
-            http_response_code(400);
+            http_response_code(response_code: 400);
             echo "Ошибка: " . $e->getMessage();
         }
-    } else {
-        http_response_code(405);
+    }
+} else {
+        http_response_code(response_code: 405);
         echo "Метод не разрешен.";
     }
 
