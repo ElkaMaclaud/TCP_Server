@@ -16,6 +16,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER limit_categories_trigger
 BEFORE INSERT ON Categories
 FOR EACH ROW
-EXECUTE FUNCTION check_category_limit();
+EXECUTE PROCEDURE check_category_limit();  -- EXECUTE FUNCTION
 
 -- psql -U <username> -d <database_name> -f create_categories.sql
