@@ -57,5 +57,5 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
         echo "Метод не разрешен.";
     }
 
-// Запуск сервера в консоле (также в Windows): php -S localhost:8080 server.php    -S - Этот параметр указывает, что запускать встроенный веб-сервер!!!!! 
+// Запуск сервера в консоле (также в Windows): php -S localhost:8080 server.php    -S - Этот параметр указывает, чтобы запускать встроенный веб-сервер!!!!! 
 // Использование в Windows:     curl -X POST -d "string=(()())" http://localhost:$port

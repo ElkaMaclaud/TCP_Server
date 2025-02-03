@@ -1,0 +1,5 @@
+CREATE TABLE Authors (
+    AuthorID SERIAL PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL, 
+    LastName VARCHAR(50) NOT NULL  
+);
