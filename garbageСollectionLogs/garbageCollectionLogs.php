@@ -40,7 +40,7 @@ while (true) {
     $endGcTime = microtime(true);
 
     // Обновляем статистику
-    $gcStats['time_spent'] += ($endGcTime - $startGcTime);
+    $gcStats['time_spent'] += ($endGcTime - $startGcTime); // Сколько времени заняла работа сборщика мусора
     if ($collectedCycles > 0) {
         $gcStats['young'] += $collectedCycles; // Условно считаем все сборки "молодыми"
     }
@@ -49,7 +49,7 @@ while (true) {
     if ((time() - $startTime) % $logInterval === 0) {
         $log = [
             'timestamp' => new MongoDB\BSON\UTCDateTime(),
-            'memory_usage' => memory_get_usage(true),
+            'memory_usage' => memory_get_usage(true), // Эта функция возвращает объем памяти, который в данный момент используется PHP-скриптом в байтах.
             'gc_stats' => $gcStats
         ];
         $collection->insertOne($log);
