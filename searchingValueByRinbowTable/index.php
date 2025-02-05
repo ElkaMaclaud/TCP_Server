@@ -46,7 +46,6 @@ function searchHash($hash, $chainLength = 1000) {
     return null;
 }
 
-// Поиск
 if (isset($_GET['hash'])) {
     $hash = $_GET['hash'];
     $result = searchHash($hash);
@@ -57,5 +56,8 @@ if (isset($_GET['hash'])) {
         echo "No match found for hash: $hash";
     }
 } else {
+    // Генерация хэшей для тестирования
+    // echo hash('sha256', "ElkaMaclaud");
     echo "Please provide a hash as a GET parameter, e.g., ?hash=your_hash_here";
 }
+

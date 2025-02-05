@@ -17,6 +17,7 @@ function reduceHash($hash, $iteration) {
 function generateRainbowTable($chainLength = 1000, $numChains = 100) {
     global $redis;
 
+    // Генерация хэшей тестовых слов для тестирования
     // Добавляем слово "hello" в таблицу
     $testString = "hello";
     $currentString = $testString;
@@ -46,5 +47,9 @@ function generateRainbowTable($chainLength = 1000, $numChains = 100) {
     }
 }
 
-// Генерация таблицы
 generateRainbowTable();
+
+// Запускаем этого демона 
+// Запускаем веб-сервер:   php -S localhost:8080 index.php
+// Делаем запрос - curl "http://localhost:8080/index.php?hash=<hash_value>" 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
+// Делаем запрос - curl "http://localhost:8080/index.php?hash=<hash_value>" 96ef530ec02784bcdfa0e2233eacd3728e800fa6f583d54c779587b3f6963713
