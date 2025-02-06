@@ -1,0 +1,17 @@
+{
+    "name": "elkam/library",
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Elkam\\movies\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ElkaMaclaud",
+            "email": "elkamaclaud@gmail.com"
+        }
+    ]
+}
